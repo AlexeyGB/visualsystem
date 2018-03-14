@@ -16,13 +16,11 @@ class BipolarBinary(BaseCell):
         input_ : numpy array
             Outputs of the previous level's cells
 
-        receptive_field_сenter : array of two-element tuples
-            Positions of input cells related to the center of the receptive
-            field
+        receptive_field_сenter : array of references to cells related
+            to the center of the receptive field
 
-        receptive_field_periphery : array of two-element tuples
-            Positions of input cells related to the periphery of the
-            receptive field
+        receptive_field_periphery : array of references to cells related
+            to the periphery of the receptive field
 
         center_periphery_ratio : float, default 1.0
             The ratio used in response calculations (see Notes)
@@ -62,6 +60,7 @@ class BipolarBinary(BaseCell):
 
         For cells with receptive field with on-center response is calculated conversely.
 
+
     """
 
     def __init__(self, position, input_, receptive_field_сenter,
@@ -77,11 +76,11 @@ class BipolarBinary(BaseCell):
     def _calculate_response(self):
         central_in = 0
         for central_cell in self._receptive_field_center:
-            central_in += self._input[central_cell]
+            central_in += central_cell.get_response()
 
         peripheral_in = 0
         for peripheral_cell in self._receptive_field_periphery:
-            peripheral_in += self._input[peripheral_cell]
+            peripheral_in += peripheral_cell.get_response()
 
         total_in = (self._center_periphery_ratio *
                     central_in / len(self._receptive_field_center) -
