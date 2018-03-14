@@ -25,10 +25,10 @@ class BipolarBinary(BaseCell):
         center_periphery_ratio : float, default 1.0
             The ratio used in response calculations (see Notes)
 
-        center_type : int, {0, 1}, default 1
+        center_type : int, {-1, 1}, default 1
             The type of cell's receptive field
 
-            - 0, receptive field with off-center
+            - -1, receptive field with off-center
 
             - 1, receptive field with on-center
 
@@ -46,7 +46,7 @@ class BipolarBinary(BaseCell):
         center_type : int, {0, 1}
             The type of cell's receptive field
 
-            - 0, receptive field with off-center
+            - -1, receptive field with off-center
 
             - 1, receptive field with on-center
 
@@ -86,16 +86,11 @@ class BipolarBinary(BaseCell):
                     central_in / len(self._receptive_field_center) -
                     peripheral_in / len(self._receptive_field_periphery))
 
-        if self.center_type:
-            if total_in > 0:
-                response = 1
-            else:
-                response = 0
+
+        if self.center_type*total_in > 0:
+            response = 1
         else:
-            if total_in < 0:
-                response = 1
-            else:
-                response = 0
+            response = 0
 
         return response
 
