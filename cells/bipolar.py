@@ -56,8 +56,8 @@ class BipolarBinary(BaseCell):
         -----
         For cells with receptive field with on-center response is calculated as follows:
 
-        Response = 1, if (center_periphery_ratio * summ(center)/n_center -
-                          summ(periphery)/n_periphery) > 0
+        Response = 1, if (center_periphery_ratio * sum(center)/n_center -
+                          sum(periphery)/n_periphery) > 0
                    0, else
 
         For cells with receptive field with on-center response is calculated conversely.
@@ -68,24 +68,24 @@ class BipolarBinary(BaseCell):
                  receptive_field_periphery, center_periphery_ratio=1.0,
                  center_type=1, n_iter=0):
         super().__init__(position, input_, n_iter)
-        self._receprive_field_center = receptive_field_сenter
-        self._receprive_field_periphery = receptive_field_periphery
+        self._receptive_field_center = receptive_field_сenter
+        self._receptive_field_periphery = receptive_field_periphery
         self._center_periphery_ratio = center_periphery_ratio
         self.center_type = center_type
         self._response = 0
 
     def _calculate_response(self):
         central_in = 0
-        for central_cell in self._receprive_field_center:
+        for central_cell in self._receptive_field_center:
             central_in += self._input[central_cell]
 
         peripheral_in = 0
-        for peripheral_cell in self._receprive_field_periphery:
+        for peripheral_cell in self._receptive_field_periphery:
             peripheral_in += self._input[peripheral_cell]
 
         total_in = (self._center_periphery_ratio *
-                    central_in / len(self._receprive_field_center) -
-                    peripheral_in / len(self._receprive_field_periphery))
+                    central_in / len(self._receptive_field_center) -
+                    peripheral_in / len(self._receptive_field_periphery))
 
         if self.center_type:
             if total_in > 0:
