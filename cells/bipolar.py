@@ -79,13 +79,13 @@ class BipolarBinary(BaseCell):
         for central_cell in self._receprive_field_center:
             central_in += self._input[central_cell]
 
-        peripherical_in = 0
-        for peripherical_cell in self._receprive_field_periphery:
-            peripherical_in += self._input[peripherical_cell]
+        peripheral_in = 0
+        for peripheral_cell in self._receprive_field_periphery:
+            peripheral_in += self._input[peripheral_cell]
 
         total_in = (self._center_periphery_ratio *
                     central_in / len(self._receprive_field_center) -
-                    peripherical_in / len(self._receprive_field_periphery))
+                    peripheral_in / len(self._receprive_field_periphery))
 
         if self.center_type:
             if total_in > 0:
