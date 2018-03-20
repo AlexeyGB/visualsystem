@@ -2,20 +2,14 @@
 
 """
 
-from ._base import BaseCell
 
-
-class RodBinary(BaseCell):
+class RodBinary():
     """ Binary rod cell class
 
         Parameters
         ----------
         position : tuple, (row, column)
             The position of the cell in its layer
-
-        input_ : numpy array
-            Whole image in black and white (valid values of each
-            pixel: {0, 1})
 
         n_iter : int, optional, default 0
             The number of iterations the cell has ran
@@ -28,19 +22,31 @@ class RodBinary(BaseCell):
         n_iter : int
             The number of iterations the cell has ran
 
+        Notes
+        -----
+
+        So far only the case when input image is binary is implemented.
+        todo: make a binorization method
+
 
     """
 
-    def __init__(self, position, input_, n_iter=0):
-        super().__init__(position, input_, n_iter)
+    def __init__(self, position, n_iter=0):
+        self.position = position
+        self.n_iter = n_iter
         self._response = 0
 
-    def run(self):
+    def run(self, input_):
         """ Perform one iteration
 
+            Parameters
+            ----------
+            input_ : numpy array
+                Whole image in black and white (valid values of each
+                pixel: {0, 1})
         """
 
-        self._response = self._input[self.position]
+        self._response = input_[self.position]
         self.n_iter += 1
 
     def get_response(self):

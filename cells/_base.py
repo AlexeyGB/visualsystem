@@ -25,6 +25,11 @@ class BaseCell:
         n_iter : int
             The number of iterations the cell has ran
 
+        Notes
+        -----
+
+        So far this class actually does nothing, it's written for
+        future improvements :)
 
     """
 
