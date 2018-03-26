@@ -53,6 +53,3 @@ class ImagesGet:
         """
         last_frame = self._frame
         return last_frame
-
-class VideoFrameGet:
-    pass
