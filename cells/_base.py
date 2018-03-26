@@ -5,6 +5,7 @@
 
 def tolerance_line(x, x1, y2):
     """ Linear tolerance function
+        For cells with Center-surround antagonistic receptive field
 
         Parameters
         ----------
@@ -37,6 +38,7 @@ def tolerance_line(x, x1, y2):
 
 def tolerance_ellipse(x, x1, y2):
     """ Elliptical tolerance function
+        For cells with Center-surround antagonistic receptive field
 
         Parameters
         ----------
