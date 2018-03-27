@@ -28,6 +28,7 @@ def tolerance_line(x, x1, y2):
         Maximal proportion of positive (or negative for off-center
         cell's type) peripheral inputs, where the response is positive
 
+
     """
 
     if x > x1:
@@ -60,6 +61,8 @@ def tolerance_ellipse(x, x1, y2):
         -------
         Maximal proportion of positive (or negative for off-center
         cell's type) peripheral inputs, where the response is positive
+
+
     """
 
     if x > x1:

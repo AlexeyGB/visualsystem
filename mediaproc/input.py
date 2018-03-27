@@ -37,7 +37,6 @@ class ImagesGet:
         else:
             self._frame = self._images[self.n_iter-1]
 
-
     def get_frame(self):
         """ Get new frame
 

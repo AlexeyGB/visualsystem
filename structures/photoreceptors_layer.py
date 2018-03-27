@@ -22,6 +22,9 @@ class RodsBinaryLayer:
         An object that gets new frame and has a method get_frame()
         that returns an np.array with this frame
 
+    n_iter : int, optional, default 0
+        The number of iterations the layer has ran
+
 
     Attributes
     ----------
@@ -31,68 +34,50 @@ class RodsBinaryLayer:
 
     n_iter: int
         The number of iterations the layer has ran
+        
+    cells : list
+        2 dimensional array of cells
+
+    input_: numpy array
+        Layer's input at the last iteration
+        Array's shape is equal to layer's shape
+
+    response: numpy array
+        Cells of the layer's current response
+        Array's shape is equal to layer's shape
 
 
     """
 
-    def __init__(self, shape, data_source):
+    def __init__(self, shape, data_source, n_iter=0):
         self.shape = shape
         self._data_source = data_source
-        self.n_iter = 0
-        self._input = None
-        self._response = np.empty(self.shape, dtype=np.int8)
+        self.n_iter = n_iter
+        self.input_ = None
+        self.response = np.empty(self.shape, dtype=np.int8)
+        self.cells = []
         self._create_cells()
 
     def _create_cells(self):
-        self._cells = []
 
         for i in range(self.shape[0]):
-            self._cells.append([])
+            self.cells.append([])
             for j in range(self.shape[1]):
-                self._cells[i].append(RodBinary(position=(i, j)))
+                self.cells[i].append(RodBinary(position=(i, j),
+                                               n_iter=self.n_iter
+                                               )
+                                     )
 
     def run(self):
         """ Perform one iteration
 
         """
 
-        self._input = deepcopy(self._data_source.get_frame())
+        self.input_ = deepcopy(self._data_source.get_frame())
 
         for i in range(self.shape[0]):
             for j in range(self.shape[1]):
-                self._cells[i][j].run(self._input)
-                self._response[i][j] = self._cells[i][j].get_response()
+                self.cells[i][j].run(self.input_)
+                self.response[i][j] = self.cells[i][j].response
 
         self.n_iter += 1
-
-    def get_response(self):
-        """
-        Getting layer's current response
-
-        Returns
-        -------
-        response: numpy array
-            Array's shape is equal to layer's shape
-
-        """
-
-        response = self._response
-        return response
-
-    def get_input(self):
-        """
-        Getting layer's current input
-
-        Returns
-        -------
-        input_: numpy array
-            Array's shape is equal to layer's shape
-
-        """
-
-        input_ = self._input
-        return input_
-
-    def get_cells(self):
-        cells = self._cells
-        return cells
