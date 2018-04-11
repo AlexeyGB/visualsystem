@@ -20,7 +20,8 @@ class RodsBinaryLayer:
 
     data_source: object
         An object that gets new frame and has a method get_frame()
-        that returns an np.array with this frame
+        that returns an np.array with this frame.
+        Frame's pixels must have the values only 0 and 1.
 
     n_iter : int, optional, default 0
         The number of iterations the layer has ran
