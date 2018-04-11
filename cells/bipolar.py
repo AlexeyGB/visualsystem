@@ -30,7 +30,7 @@ class BipolarBinary:
             Array of references to cells related
             to the surround of the receptive field
 
-        center_surround_tolerance : {'linear', 'elliptical'},
+        center_surround_tolerance : {'constant', 'linear', 'elliptical'},
                                     default 'linear'
             The dependence between the proportion of positive center
             inputs and acceptable proportion of positive surround
@@ -143,8 +143,6 @@ class BipolarBinary:
                 response = 1
             else:
                 response = 0
-        else:
-            response = 0
 
         return response
 

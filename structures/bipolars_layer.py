@@ -23,7 +23,7 @@ class BipolarsBinaryLayer:
 
     receptive_field_shape : tuple, {center_radius, surround_radius}
 
-    center_surround_tolerance : {'linear', 'elliptical'},
+    center_surround_tolerance : {'constant', 'linear', 'elliptical'},
                                 default 'linear'
         The dependence between the proportion of positive center
         inputs and acceptable proportion of positive surround
