@@ -30,6 +30,8 @@ class BipolarsBinaryLayer:
         inputs for cell with on-center (for cell with off-center
         conversely)
 
+        - 'constant'
+
         - 'linear', grows linearly
 
         - 'elliptical', grows like a quoter of an ellipse with

@@ -37,6 +37,8 @@ class BipolarBinary:
             inputs for cell with on-center (for cell with off-center
             conversely)
 
+            - 'constant'
+
             - 'linear', grows linearly
 
             - 'elliptical', grows like a quoter of an ellipse with
@@ -114,7 +116,15 @@ class BipolarBinary:
             center_positive_in_share = 1 - center_in/len(self._center_input)
             surround_positive_in_share = 1 - surround_in/len(self._surround_input)
 
-        if self._center_surround_tolerance == 'linear':
+        if self._center_surround_tolerance == 'constant':
+            if (center_positive_in_share >= self._center_threshold) and \
+               (surround_positive_in_share <= self._surround_threshold):
+
+                response = 1
+            else:
+                response = 0
+
+        elif self._center_surround_tolerance == 'linear':
             if surround_positive_in_share <= \
                     tolerance_line(center_positive_in_share,
                                    self._center_threshold,
