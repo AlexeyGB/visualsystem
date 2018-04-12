@@ -24,7 +24,7 @@ class BipolarsBinaryLayer:
     receptive_field_shape : tuple, {center_radius, surround_radius}
 
     center_surround_tolerance : {'constant', 'linear', 'elliptical'},
-                                default 'linear'
+                                default 'constant'
         The dependence between the proportion of positive center
         inputs and acceptable proportion of positive surround
         inputs for cell with on-center (for cell with off-center
@@ -38,12 +38,12 @@ class BipolarsBinaryLayer:
             center in (1, 0) and half-axis 1-center_threshold
             and surround_threshold (see below)
 
-    center_threshold : float, [0; 1], default 0.8
+    center_threshold : float, [0; 1], default 1.0
         Minimal proportion of positive (or negative for off-center
         cell's type) center inputs, required to be able to response
         positively
 
-    surround_threshold : float, [0; 1], default 0.2
+    surround_threshold : float, [0; 1], default 0.7
         Maximal proportion of positive (or negative for off-center
         cell's type) surround inputs, required to be able to response
         positively
