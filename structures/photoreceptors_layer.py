@@ -6,7 +6,7 @@ from copy import deepcopy
 
 import numpy as np
 
-from ..cells.photoreceptors import RodBinary
+from ..cells.photoreceptors import RodBinaryCell
 
 
 class RodsBinaryLayer:
@@ -64,7 +64,7 @@ class RodsBinaryLayer:
         for i in range(self.shape[0]):
             self.cells.append([])
             for j in range(self.shape[1]):
-                self.cells[i].append(RodBinary(position=(i, j),
+                self.cells[i].append(RodBinaryCell(position=(i, j),
                                                n_iter=self.n_iter
                                                )
                                      )

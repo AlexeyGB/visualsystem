@@ -7,7 +7,7 @@ from copy import deepcopy
 
 import numpy as np
 
-from ..cells.bipolar import BipolarBinary
+from ..cells.bipolar import BipolarBinaryCell
 from ._base import get_csarf
 
 
@@ -144,7 +144,7 @@ class BipolarsBinaryLayer:
                                   for row, column in surround_input_position]
 
                 self.on_cells[i].append(
-                    BipolarBinary(
+                    BipolarBinaryCell(
                         position=(i, j),
                         center_type=1,
                         center_input=center_input,
@@ -156,7 +156,7 @@ class BipolarsBinaryLayer:
                     )
                 )
                 self.off_cells[i].append(
-                    BipolarBinary(
+                    BipolarBinaryCell(
                         position=(i, j),
                         center_type=-1,
                         center_input=center_input,

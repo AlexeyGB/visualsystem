@@ -6,7 +6,7 @@
 from ._base import tolerance_line, tolerance_ellipse
 
 
-class BipolarBinary:
+class BipolarBinaryCell:
     """ Binary bipolar cell class
 
         Parameters

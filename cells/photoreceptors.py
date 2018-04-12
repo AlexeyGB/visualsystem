@@ -3,7 +3,7 @@
 """
 
 
-class RodBinary:
+class RodBinaryCell:
     """ Binary rod cell class
 
         Parameters
