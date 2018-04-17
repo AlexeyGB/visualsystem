@@ -3,6 +3,9 @@
 """
 
 
+import numpy as np
+
+
 from ._base import tolerance_line, tolerance_ellipse
 
 
@@ -100,21 +103,14 @@ class BipolarBinaryCell:
         self._surround_threshold = surround_threshold
         self.response = 0
 
-    def _calculate_response(self):
-        center_in = 0
-        for center_cell in self._center_input:
-            center_in += center_cell.response
-
-        surround_in = 0
-        for surround_cell in self._surround_input:
-            surround_in += surround_cell.response
+    def _calculate_response(self, center_inputs, surround_inputs):
 
         if self.center_type == 1:
-            center_positive_in_share = center_in/len(self._center_input)
-            surround_positive_in_share = surround_in/len(self._surround_input)
+            center_positive_in_share = np.mean(center_inputs)
+            surround_positive_in_share = np.mean(surround_inputs)
         else:
-            center_positive_in_share = 1 - center_in/len(self._center_input)
-            surround_positive_in_share = 1 - surround_in/len(self._surround_input)
+            center_positive_in_share = 1 - np.mean(center_inputs)
+            surround_positive_in_share = 1 - np.mean(surround_inputs)
 
         if self._center_surround_tolerance == 'constant':
             if (center_positive_in_share >= self._center_threshold) and \
@@ -150,6 +146,12 @@ class BipolarBinaryCell:
         """ Perform one iteration
 
         """
+        center_inputs = [cell.response for cell in self._center_input]
 
-        self.response = self._calculate_response()
+        surround_inputs = [cell.response for cell in self._surround_input]
+
+        self.response = self._calculate_response(
+                                                 center_inputs,
+                                                 surround_inputs
+        )
         self.n_iter += 1

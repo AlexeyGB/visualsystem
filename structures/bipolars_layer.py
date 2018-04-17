@@ -18,7 +18,7 @@ class BipolarsBinaryLayer:
     Parameters
     ----------
 
-    previous_layer: object
+    previous_layer : object
         An object of a rod's layer
 
     receptive_field_shape : tuple, {center_radius, surround_radius}
@@ -55,10 +55,10 @@ class BipolarsBinaryLayer:
     Attributes
     ----------
 
-    shape: tuple, (row, column)
+    shape : tuple, (row, column)
         The shape of the layer
 
-    n_iter: int
+    n_iter : int
         The number of iterations the layer has ran
 
     on_cells : list
@@ -67,17 +67,13 @@ class BipolarsBinaryLayer:
     off_cells : list
         2 dimensional array of off-center cells
 
-    input_: numpy array
+    input_ : numpy.ndarray
         Layer's input at the last iteration
         Array's shape is equal to layer's shape
 
-    on_response: numpy array
-        On-center cells of the layer's current response
-        Array's shape is equal to layer's shape
-
-    off_response:
-        Off-center cells of the layer's current response
-        Array's shape is equal to layer's shape
+    response : list of two numpy.ndarray
+        Current response of on- and off-center cells of the layer.
+        Each array has shape equally to layer's shape. On-center cells first.
 
     Notes
     -----
@@ -106,8 +102,8 @@ class BipolarsBinaryLayer:
                 (self._surround_radius, self._surround_radius)
             )
         )
-        self.on_response = np.empty(self.shape, dtype=np.int8)
-        self.off_response = np.empty(self.shape, dtype=np.int8)
+        self.response = [np.empty(self.shape, dtype=np.int8),
+                         np.empty(self.shape, dtype=np.int8)]
         self.on_cells = []
         self.off_cells = []
         self._create_cells(center_surround_tolerance,
@@ -177,8 +173,8 @@ class BipolarsBinaryLayer:
         for i in range(self.shape[0]):
             for j in range(self.shape[1]):
                 self.on_cells[i][j].run()
-                self.on_response[i][j] = self.on_cells[i][j].response
+                self.response[0][i][j] = self.on_cells[i][j].response
                 self.off_cells[i][j].run()
-                self.off_response[i][j] = self.off_cells[i][j].response
+                self.response[1][i][j] = self.off_cells[i][j].response
 
         self.n_iter += 1
