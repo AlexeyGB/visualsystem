@@ -2,14 +2,17 @@
 
 """
 
+import cv2
+import numpy as np
+
 
 class ImagesGet:
     """ Class for getting visual data from a list of images
 
         Parameters
         ----------
-        images : array-like object
-            Contains a list of images.
+        images : array-like object or np.array
+            Contains a list of np.ndarray images or one image
 
         Attributes
         ----------
@@ -30,12 +33,20 @@ class ImagesGet:
         self._images = images
         self.n_iter = 0
 
+    def _binarize_frame(self):
+        # TODO: smarter binarization
+        ret, self._frame = cv2.threshold(self._frame, thresh=127, maxval=1, type=cv2.THRESH_BINARY)
+
     def _load_new_frame(self):
         self.n_iter += 1
-        if self.n_iter >= len(self._images):
-            self._frame = self._images[len(self._images)-1]
+        if isinstance(self._images, np.ndarray):
+            self._frame = self._images
         else:
-            self._frame = self._images[self.n_iter-1]
+            if self.n_iter >= len(self._images):
+                self._frame = self._images[len(self._images)-1]
+            else:
+                self._frame = self._images[self.n_iter-1]
+        self._binarize_frame()
 
     def get_frame(self):
         """ Get new frame
