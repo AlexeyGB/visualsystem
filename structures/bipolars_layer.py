@@ -69,11 +69,10 @@ class BipolarsBinaryLayer:
 
     input_ : numpy.ndarray
         Layer's input at the last iteration
-        Array's shape is equal to layer's shape
 
     response : list of two numpy.ndarray
         Current response of on- and off-center cells of the layer.
-        Each array has shape equally to layer's shape. On-center cells first.
+        On-center cells first.
 
     Notes
     -----
@@ -95,15 +94,13 @@ class BipolarsBinaryLayer:
         self._receptive_field_shape = receptive_field_shape
         self._center_radius, self._surround_radius = receptive_field_shape
         self.n_iter = n_iter
+
         self.input_ = None
         self.shape = tuple(
             np.array(self._previous_layer.shape) -
-            2 * np.array(
-                (self._surround_radius, self._surround_radius)
-            )
+            np.full(2, 2 * self._surround_radius)
         )
-        self.response = [np.empty(self.shape, dtype=np.int8),
-                         np.empty(self.shape, dtype=np.int8)]
+        self.response = [np.empty(self.shape, dtype=np.int8) for _ in range(2)]
         self.on_cells = []
         self.off_cells = []
         self._create_cells(center_surround_tolerance,
@@ -122,12 +119,10 @@ class BipolarsBinaryLayer:
             for j in range(self.shape[1]):
                 center_position = tuple(
                     np.array((i, j)) +
-                    np.array(
-                        (self._surround_radius, self._surround_radius)
-                    )
+                    np.full(2, self._surround_radius)
                 )
 
-                center_input_position, surround_input_position = \
+                center_input_positions, surround_input_positions = \
                     get_csarf(self._receptive_field_shape,
                               center_position
                               )
@@ -135,9 +130,9 @@ class BipolarsBinaryLayer:
                 input_cells = self._previous_layer.cells
 
                 center_input = [input_cells[row][column]
-                                for row, column in center_input_position]
+                                for row, column in center_input_positions]
                 surround_input = [input_cells[row][column]
-                                  for row, column in surround_input_position]
+                                  for row, column in surround_input_positions]
 
                 self.on_cells[i].append(
                     BipolarBinaryCell(
