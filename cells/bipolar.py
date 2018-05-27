@@ -82,6 +82,10 @@ class BipolarBinaryCell:
         Notes
         -----
 
+        Now this functionality moved to ganglion.py
+        Stays here just for keeping some experiments working.
+
+
     """
 
     def __init__(self, position,

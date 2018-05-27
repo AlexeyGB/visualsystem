@@ -1,18 +1,17 @@
-""" The models of layer of bipolar cells
+""" The models of layer of ganglion cells
 
 """
-
 
 from copy import deepcopy
 
 import numpy as np
 
-from ..cells.bipolar import BipolarBinaryCell
+from ..cells.ganglion import GanglionBinaryCell
 from ._base import get_csarf
 
 
-class BipolarsBinaryLayer:
-    """ Class for layer of binary bipolar cells
+class GanglionsBinaryLayer:
+    """ Class for layer of binary ganglion cells
         Provides two sublayers: of on-center and off-center cells.
 
     Parameters
@@ -77,8 +76,9 @@ class BipolarsBinaryLayer:
     Notes
     -----
 
-    Now this functionality moved to ganglions_layer.py
-    Stays here just for keeping some experiments working.
+    Yet have been developed only evenly disturbed ganglions with the same size
+    of receptive fields
+
 
     """
 
@@ -134,7 +134,7 @@ class BipolarsBinaryLayer:
                                   for row, column in surround_input_positions]
 
                 self.on_cells[i].append(
-                    BipolarBinaryCell(
+                    GanglionBinaryCell(
                         position=(i, j),
                         center_type=1,
                         center_input=center_input,
@@ -146,7 +146,7 @@ class BipolarsBinaryLayer:
                     )
                 )
                 self.off_cells[i].append(
-                    BipolarBinaryCell(
+                    GanglionBinaryCell(
                         position=(i, j),
                         center_type=-1,
                         center_input=center_input,
