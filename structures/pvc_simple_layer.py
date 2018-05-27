@@ -19,74 +19,74 @@ SIMPLE_PVC_TYPES = ['vertical', 'horizontal', 'left_inclined', 'right_inclined']
 
 class SimplePVCBinaryLayer:
     """ Class for layer of binary Simple PVC cells
-        Provides 4 sublayer, which detects vertical, horizontal,
-        inclined to the left and inclined to the right borders
+    Provides 4 sublayer, which detects vertical, horizontal,
+    inclined to the left and inclined to the right borders
 
-        Parameters
-        ----------
+    Parameters
+    ----------
 
-        previous_layer : object
-            An object of bipolar's layer
+    previous_layer : object
+        An object of bipolar's layer
 
-        receptive_field_size : int, must be odd
+    receptive_field_size : int, must be odd
 
-        input_sublayer_type : {'on-center', 'off-center', 'both'}
-            There is three alternatives:
+    input_sublayer_type : {'on-center', 'off-center', 'both'}
+        There is three alternatives:
 
-            - 'on-center', only cells from sublayer with on-center cells are
-                at the input
+        - 'on-center', only cells from sublayer with on-center cells are
+            at the input
 
-            - 'off-center', only cells from sublayer with off-center cells are
-                at the input
+        - 'off-center', only cells from sublayer with off-center cells are
+            at the input
 
-            - 'both', cells from both sublayers are at the input
+        - 'both', cells from both sublayers are at the input
 
-        regions_tolerance :  {'constant', 'linear', 'elliptical'},
-                             default 'constant'
-            The dependence between the proportion of positive on-region's
-            inputs and acceptable proportion of positive off-region's
-            inputs
+    regions_tolerance :  {'constant', 'linear', 'elliptical'},
+                         default 'constant'
+        The dependence between the proportion of positive on-region's
+        inputs and acceptable proportion of positive off-region's
+        inputs
 
-            - 'constant'
+        - 'constant'
 
-            - 'linear', grows linearly
+        - 'linear', grows linearly
 
-            - 'elliptical', grows like a quoter of an ellipse with
-                center in (1, 0) and half-axis 1-on_region_threshold
-                and off_region_threshold (see below)
+        - 'elliptical', grows like a quoter of an ellipse with
+            center in (1, 0) and half-axis 1-on_region_threshold
+            and off_region_threshold (see below)
 
-        on_region_threshold : float, [0; 1], default 1.0
-            Minimal proportion of positive on-region's inputs, required to be able
-            to response positively
+    on_region_threshold : float, [0; 1], default 1.0
+        Minimal proportion of positive on-region's inputs, required to be able
+        to response positively
 
-        off_region_threshold : float, [0; 1], default 0.0
-            Maximal proportion of positive off-region's inputs, required to be able
-            to response positively
+    off_region_threshold : float, [0; 1], default 0.0
+        Maximal proportion of positive off-region's inputs, required to be able
+        to response positively
 
-        n_iter : int, optional, default 0
-            The number of iterations the layer has ran
+    n_iter : int, optional, default 0
+        The number of iterations the layer has ran
 
-        Attributes
-        ----------
-        shape : tuple, (row, column)
-            The shape of the layer
+    Attributes
+    ----------
+    shape : tuple, (row, column)
+        The shape of the layer
 
-        n_iter : int
-            The number of iterations the layer has ran
+    n_iter : int
+        The number of iterations the layer has ran
 
         cells : dict
-            The dict of layer's cells divided by sublayers:
-            ['vertical', 'horizontal', 'left_inclined', 'right_inclined']
+        The dict of layer's cells divided by sublayers:
+        ['vertical', 'horizontal', 'left_inclined', 'right_inclined']
 
-        input_ : list of two numpy.ndarray
-            Layer's input at the last iteration.
+    input_ : list of two numpy.ndarray
+        Layer's input at the last iteration.
 
-        response : dict
-            Current response of cells of the layer. Divided by sublayers:
-            ['vertical', 'horizontal', 'left_inclined', 'right_inclined']
+    response : dict
+        Current response of cells of the layer. Divided by sublayers:
+        ['vertical', 'horizontal', 'left_inclined', 'right_inclined']
 
-        Notes
-        -----
+    Notes
+    -----
 
 
     """

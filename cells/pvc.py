@@ -12,85 +12,85 @@ from ._base import tolerance_line, tolerance_ellipse
 class SimplePVCBinaryCell:
     """ Binary simple primary virtual cortex's cell class
 
-        Parameters
-        ----------
+    Parameters
+    ----------
 
-        position : tuple, (row, column)
-                The position of the cell in its layer
-
-        input_sublayer_type : {'on-center', 'off-center', 'both'}
-            There is three alternatives:
-
-            - 'on-center', only cells from sublayer with on-center cells are
-                at the input
-
-            - 'off-center', only cells from sublayer with off-center cells are
-                at the input
-
-            - 'both', cells from both sublayers are at the input
-
-        on_region_input : array-like or list of two arrays,
-                          depending on input_sublayer_type.
-            Array (or two) of references to cells related to the on-region of
-            the receptive field. If two, the first must be sublayer with
-            on-center cells.
-
-        off_region_input : array-like or array of two arrays, depending on
-                           input_sublayer_type.
-            Array (or two) of references to cells related to the off-region of
-            the receptive field. If two, the first must be sublayer with
-            on-center cells.
-
-        regions_tolerance :  {'constant', 'linear', 'elliptical'},
-                             default 'constant'
-            The dependence between the proportion of positive on-region's
-            inputs and acceptable proportion of positive off-region's
-            inputs
-
-            - 'constant'
-
-            - 'linear', grows linearly
-
-            - 'elliptical', grows like a quoter of an ellipse with
-                center in (1, 0) and half-axis 1-on_region_threshold
-                and off_region_threshold (see below)
-
-        on_region_threshold : float, [0; 1], default 1.0
-            Minimal proportion of positive on-region's inputs, required to be able
-            to response positively
-
-        off_region_threshold : float, [0; 1], default 0.0
-            Maximal proportion of positive off-region's inputs, required to be able
-            to response positively
-
-        n_iter : int, optional, default 0
-            The number of iterations the cell has ran
-
-        Attributes
-        ----------
-
-        position : tuple, (row, column)
+    position : tuple, (row, column)
             The position of the cell in its layer
 
-        n_iter : int
-            The number of iterations the cell has ran
+    input_sublayer_type : {'on-center', 'off-center', 'both'}
+        There is three alternatives:
 
-        input_sublayer_type : {'on-center', 'off-center', 'both'}
-            There is three alternatives:
+        - 'on-center', only cells from sublayer with on-center cells are
+            at the input
 
-            - 'on-center', only cells from sublayer with on-center cells are
-                at the input
+        - 'off-center', only cells from sublayer with off-center cells are
+            at the input
 
-            - 'off-center', only cells from sublayer with off-center cells are
-                at the input
+        - 'both', cells from both sublayers are at the input
 
-            - 'both', cells from both sublayers are at the input
+    on_region_input : array-like or list of two arrays,
+                      depending on input_sublayer_type.
+        Array (or two) of references to cells related to the on-region of
+        the receptive field. If two, the first must be sublayer with
+        on-center cells.
 
-        response : int, {0, 1}
-            Current cell's response
+    off_region_input : array-like or array of two arrays, depending on
+                       input_sublayer_type.
+        Array (or two) of references to cells related to the off-region of
+        the receptive field. If two, the first must be sublayer with
+        on-center cells.
 
-        Notes
-        -----
+    regions_tolerance :  {'constant', 'linear', 'elliptical'},
+                         default 'constant'
+        The dependence between the proportion of positive on-region's
+        inputs and acceptable proportion of positive off-region's
+        inputs
+
+        - 'constant'
+
+        - 'linear', grows linearly
+
+        - 'elliptical', grows like a quoter of an ellipse with
+            center in (1, 0) and half-axis 1-on_region_threshold
+            and off_region_threshold (see below)
+
+    on_region_threshold : float, [0; 1], default 1.0
+        Minimal proportion of positive on-region's inputs, required to be able
+        to response positively
+
+    off_region_threshold : float, [0; 1], default 0.0
+        Maximal proportion of positive off-region's inputs, required to be able
+        to response positively
+
+    n_iter : int, optional, default 0
+        The number of iterations the cell has ran
+
+    Attributes
+    ----------
+
+    position : tuple, (row, column)
+        The position of the cell in its layer
+
+    n_iter : int
+        The number of iterations the cell has ran
+
+    input_sublayer_type : {'on-center', 'off-center', 'both'}
+        There is three alternatives:
+
+        - 'on-center', only cells from sublayer with on-center cells are
+            at the input
+
+        - 'off-center', only cells from sublayer with off-center cells are
+            at the input
+
+        - 'both', cells from both sublayers are at the input
+
+    response : int, {0, 1}
+        Current cell's response
+
+    Notes
+    -----
 
     """
 
