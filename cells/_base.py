@@ -30,8 +30,9 @@ def tolerance_line(x, x1, y2):
 
 
     """
-
-    if x > x1:
+    if (x == x1) and (x1 == 1):
+        return y2
+    elif x >= x1:
         return y2 / (1 - x1) * x + y2 / (x1 - 1) * x1
     else:
         return -1
@@ -64,8 +65,9 @@ def tolerance_ellipse(x, x1, y2):
 
 
     """
-
-    if x > x1:
+    if (x == x1) and (x1 == 1):
+        return y2
+    elif x >= x1:
         return y2 * (1 - (x - 1) ** 2 / (x1 - 1) ** 2) ** 0.5
     else:
         return -1
