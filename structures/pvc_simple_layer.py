@@ -194,7 +194,7 @@ class SimplePVCBinaryLayer:
 
         """
 
-        self.input_ = deepcopy(self._previous_layer.response)
+        self.input_ = self._previous_layer.response
 
         for type_ in self.cells.keys():
             for i, j in itertools.product(range(self.shape[0]),

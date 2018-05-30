@@ -12,7 +12,7 @@ from ._base import get_csarf
 
 class GanglionsBinaryLayer:
     """ Class for layer of binary ganglion cells
-        Provides two sublayers: of on-center and off-center cells.
+        Provides two configurations: on-center and off-center cells.
 
     Parameters
     ----------
@@ -162,7 +162,7 @@ class GanglionsBinaryLayer:
         """ Perform one iteration
 
         """
-        self.input_ = deepcopy(self._previous_layer.response)
+        self.input_ = self._previous_layer.response
 
         for i in range(self.shape[0]):
             for j in range(self.shape[1]):

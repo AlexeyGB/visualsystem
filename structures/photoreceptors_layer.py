@@ -65,8 +65,8 @@ class RodsBinaryLayer:
             self.cells.append([])
             for j in range(self.shape[1]):
                 self.cells[i].append(RodBinaryCell(position=(i, j),
-                                               n_iter=self.n_iter
-                                               )
+                                                   n_iter=self.n_iter
+                                                   )
                                      )
 
     def run(self):
@@ -74,7 +74,7 @@ class RodsBinaryLayer:
 
         """
 
-        self.input_ = deepcopy(self._data_source.get_frame())
+        self.input_ = self._data_source.get_frame()
 
         for i in range(self.shape[0]):
             for j in range(self.shape[1]):
