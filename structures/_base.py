@@ -78,7 +78,7 @@ def get_simple_pvc_receptive_field(receptive_field_size, center_position, type_)
     on_region_input_positions = []
     off_region_input_positions = []
 
-    center = size//2+1
+    center = size//2
     field_center = np.full(2, center)
     cell_position = np.array(center_position)
 
