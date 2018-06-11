@@ -69,12 +69,12 @@ class ImagesGet:
 class MechanicalEye:
     """ Class for mechanical eye simulation
 
-        Gets an image and provides field of view, that can be moved
-        around this image using move() method.
+        Gets an image and provides square field of view, that can
+        be moved around this image using move() method.
 
         Parameters
         ----------
-        image : np.ndarray
+        image : np.ndarray, grayscale image
             Grayscale image with values [0, 255]
 
         field_size: int
@@ -82,14 +82,28 @@ class MechanicalEye:
 
         Attributes
         ----------
-        image_n_frame : RGB image
+        frame : np.ndarray, grayscale image
+            A part of an original image corresponding to
+            current position of field of view
+
+        image : np.ndarray
+            Binarized original image with pixel's values {0, 1}
+
+        image_n_frame : np.ndarray, RGB image
             Original image with imposed field of view
 
         field_size : int
             The side of square field of view
 
+        boundaries : list of 2 np.ndarray
+            Upper left and lower right boundary positions of center
+            of the field of view (both inclusively)
+
         bound_reached : bool
             True if try to move field of view outside the image
+
+        center_position : np.ndarray, [vertical, horizontal]
+            The current position of center of clear vision
 
         Methods
         -------
@@ -99,41 +113,51 @@ class MechanicalEye:
         Notes
         -----
         Everywhere first coordinate [0] is vertical,
-        second coordinate [1] is horizontal
+        second coordinate [1] is horizontal (as in numpy)
 
+        self.image has the same shape as input image
+        self.color_image and self.image_n_frame has additional black boundaries with thickness 1
 
     """
 
     def __init__(self, image, field_size):
         self.field_size = field_size
 
-        # color image
-        image = image.astype(dtype=np.uint8)
-        self.color_image = cv2.cvtColor(image, cv2.COLOR_GRAY2RGB)
+        # copy and binarize image (max 255)
+        self.image = deepcopy(image).astype(dtype=np.uint8)
+        self.image = self._binarize_img(self.image, maxval=255)
 
-        # add white fields to the edges of image
-        self.image = self._binarize_img(image)
-        self.image = np.concatenate((np.zeros((1, image.shape[0])),
-                                     self.image,
-                                     np.zeros((1, image.shape[0]))
-                                     ),
-                                    axis=0
-                                    )
-        self.image = np.concatenate((np.zeros((image.shape[1]+2, 1)),
-                                     self.image,
-                                     np.zeros((image.shape[1]+2, 1))
-                                     ),
-                                    axis=1
-                                    )
+        # add white fields to the edges of color_image
+        self.color_image = np.concatenate((np.zeros((1, self.image.shape[0])),
+                                           self.image,
+                                           np.zeros((1, self.image.shape[0]))
+                                           ),
+                                          axis=0
+                                          )
+        self.color_image = np.concatenate((np.zeros((self.image.shape[1] + 2, 1)),
+                                           self.color_image,
+                                           np.zeros((self.image.shape[1] + 2, 1))
+                                           ),
+                                          axis=1
+                                          )
+        self.color_image = self.color_image.astype(dtype=np.uint8)
 
-        # boundaries for center position
-        self.boundaries = [(1+field_size//2, self.image.shape[0]-1-field_size//2),
-                           (1+field_size//2, self.image.shape[1]-1-field_size//2)]
+        # colorize color_image
+        self.color_image = cv2.cvtColor(self.color_image, cv2.COLOR_GRAY2RGB)
+
+        # binarize image (max 1)
+        self.image = self._binarize_img(self.image, maxval=1)
+
+        # boundaries for center position (both inclusively)
+        self.boundaries = [(field_size//2, self.image.shape[0]-1-field_size//2),
+                           (field_size//2, self.image.shape[1]-1-field_size//2)]
         self.bound_reached = False
 
         # move field of view to initial position
+        self.center_position = None
+        self.point1 = None
+        self.point2 = None
         self.move_initial()
-
 
     def get_frame(self):
         """ Get frame
@@ -150,9 +174,11 @@ class MechanicalEye:
 
         """
 
-        self.center = np.array((self.field_size // 2 + 1, self.field_size // 2 + 1))
-        self.point1 = np.array((1, 1))
-        self.point2 = np.array((self.field_size, self.field_size))
+        self.bound_reached = False
+
+        self.center_position = np.array((self.field_size // 2, self.field_size // 2))
+        self.point1 = np.array((0, 0))
+        self.point2 = np.array((self.field_size-1, self.field_size-1))
 
         self._update_frame()
         self._update_visualisation()
@@ -170,7 +196,7 @@ class MechanicalEye:
         if isinstance(displacement, (tuple, list)):
             displacement = np.array(displacement)
 
-        new_center = self.center + displacement
+        new_center = self.center_position + displacement
 
         # check if trying to move field of view outside the image
         self.bound_reached = False
@@ -191,9 +217,9 @@ class MechanicalEye:
             self.bound_reached = True
 
         if self.bound_reached:
-            displacement = new_center - self.center
+            displacement = new_center - self.center_position
 
-        self.center = new_center
+        self.center_position = new_center
         self.point1 += displacement
         self.point2 += displacement
 
@@ -213,12 +239,13 @@ class MechanicalEye:
 
         self.image_n_frame = deepcopy(self.color_image)
         cv2.rectangle(self.image_n_frame,
-                      pt1=tuple(self.point1[::-1] - np.array([1, 1])),
-                      pt2=tuple(self.point2[::-1] + np.array([1, 1])),
+                      pt1=tuple(self.point1[::-1]),
+                      pt2=tuple(self.point2[::-1] + np.array([2, 2])),
                       color=color,
                       thickness=1
                       )
 
-    def _binarize_img(self, img):
-        ret, bin_img = cv2.threshold(img, thresh=127, maxval=1, type=cv2.THRESH_BINARY)
+    @staticmethod
+    def _binarize_img(img, maxval):
+        ret, bin_img = cv2.threshold(img, thresh=127, maxval=maxval, type=cv2.THRESH_BINARY)
         return bin_img
