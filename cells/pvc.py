@@ -91,6 +91,8 @@ class SimplePVCBinaryCell:
 
     Notes
     -----
+    The functionality is moved to SimplePVCBinary2
+    Stays here just for keeping some old code working.
 
     """
 
