@@ -127,13 +127,14 @@ class RodsBinaryLayer2:
     """
 
     def __init__(self, data_source, n_iter=0):
-        self.shape = tuple(data_source.field_size,
-                           data_source.field_size
-                           )
+        self.shape = (
+            data_source.field_size,
+            data_source.field_size
+        )
         self._data_source = data_source
         self.n_iter = n_iter
         self.input_ = None
-        self.response = np.empty(self.shape, dtype=np.int8)
+        self.response = np.zeros(self.shape, dtype=np.uint8)
         self.cells = []
         self._create_cells()
 

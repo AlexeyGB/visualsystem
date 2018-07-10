@@ -264,7 +264,7 @@ class GanglionsBinaryLayer2:
             np.array(self._previous_layer.shape) -
             np.full(2, 2 * self._surround_radius)
         )
-        self.response = np.empty(self.shape, dtype=np.int8)
+        self.response = np.zeros(self.shape, dtype=np.uint8)
         self.cells = []
         self._create_cells(center_surround_tolerance,
                            center_threshold,

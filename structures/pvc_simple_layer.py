@@ -284,7 +284,7 @@ class SimplePVCBinaryLayer2:
             np.array(self._previous_layer.shape) -
             np.full(2, self._receptive_field_size - 1)
         )
-        self.response = {type_: np.empty(self.shape, dtype=np.int8)
+        self.response = {type_: np.zeros(self.shape, dtype=np.uint8)
                          for type_ in SIMPLE_PVC_TYPES}
 
         self.cells = {type_: [] for type_ in SIMPLE_PVC_TYPES}

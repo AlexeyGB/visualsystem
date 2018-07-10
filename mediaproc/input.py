@@ -194,7 +194,7 @@ class MechanicalEye:
 
         """
         if isinstance(displacement, (tuple, list)):
-            displacement = np.array(displacement)
+            displacement = np.array([int(i) for i in displacement])
 
         new_center = self.center_position + displacement
 
